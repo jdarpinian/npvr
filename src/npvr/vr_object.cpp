@@ -165,9 +165,13 @@ void VRObject::PollOculus(std::ostringstream& s) {
   OVRManager *manager = OVRManager::Instance();
   if (manager->DevicePresent()) {
     s << "r,";
-    OVR::Quatf o = manager->GetOrientation();
-    s << o.x << "," << o.y << "," << o.z << "," << o.w;
-    s << "|";
+    OVR::Quatf* o = manager->GetOrientation();   
+	// Extended with the three position parameters! ==> Attention: Needs update from VR.js
+	OVR::Vector3f* pos = manager->GetPosition();	
+	s << o->x << "," << o->y << "," << o->z << "," << o->w;
+	s << "," << pos->x << "," << pos->y << "," << pos->z;	
+	
+	s << "|";
   }
 }
 
